@@ -2,7 +2,13 @@ export const Contacts = ({ data }) => {
   return (
     <ul>
       {data.map(contact => {
-        return <li key={contact.id}>{contact.name}</li>;
+        const { id, name, number } = contact;
+        return (
+          <li key={id}>
+            <span>{name}: </span>
+            <span>{number} </span>
+          </li>
+        );
       })}
     </ul>
   );
