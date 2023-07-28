@@ -1,11 +1,11 @@
 import { GlobalStyle } from './App.styled';
-import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget';
+import { ContactsBook } from './ContactsBook/ContactsBook';
 
 export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <FeedbackWidget />
+      <ContactsBook />
     </>
   );
 };
