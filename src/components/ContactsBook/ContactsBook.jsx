@@ -13,22 +13,29 @@ export class ContactsBook extends Component {
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: 'id-5', name: 'Aaa', number: '327-91-26' },
     ],
     filter: '',
   };
 
   handleSubmit = data => {
     const id = nanoid();
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { ...data, id: id }],
-    }));
+
+    this.setState(prevState => {
+      if (this.findContact(data.name)) {
+        alert(`${data.name} is already to contacts`);
+        return;
+      }
+
+      return {
+        contacts: [...prevState.contacts, { ...data, id: id }],
+      };
+    });
   };
 
   filteredContacts = value =>
     this.state.contacts.filter(contact => {
-      const name = contact.name.trim().toLowerCase();
-      const searchValue = value.trim().toLowerCase();
-      return name.includes(searchValue);
+      return this.normalizeStr(contact.name).includes(this.normalizeStr(value));
     });
 
   handleChange = e => {
@@ -37,6 +44,13 @@ export class ContactsBook extends Component {
       [name]: value,
     });
   };
+
+  normalizeStr = string => string.trim().toLowerCase();
+
+  findContact = value =>
+    this.state.contacts.some(
+      contact => this.normalizeStr(contact.name) === this.normalizeStr(value)
+    );
 
   render() {
     const { filter, contacts } = this.state;
