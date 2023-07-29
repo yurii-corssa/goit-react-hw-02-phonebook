@@ -2,7 +2,7 @@ import { ContactsList } from '../ContactsList/ContactsList';
 import { Filter } from '../Filter/Filter';
 import { Notification } from '../Notification/Notification';
 
-export const Contacts = ({ filter, onFiltered, onChange }) => {
+export const Contacts = ({ filter, onFiltered, onChange, onRemove }) => {
   const filteredContacts = onFiltered(filter);
 
   return (
@@ -12,7 +12,7 @@ export const Contacts = ({ filter, onFiltered, onChange }) => {
       {filter.length && !filteredContacts.length ? (
         <Notification text="Contact with the entered name was not found" />
       ) : (
-        <ContactsList contacts={filteredContacts} />
+        <ContactsList contacts={filteredContacts} onRemove={onRemove} />
       )}
     </>
   );

@@ -3,7 +3,6 @@ import { nanoid } from 'nanoid';
 import { Container } from './ContactsBook.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Contacts } from './Contacts/Contacts';
-import { Filter } from './Filter/Filter';
 import { Notification } from './Notification/Notification';
 
 export class ContactsBook extends Component {
@@ -13,7 +12,6 @@ export class ContactsBook extends Component {
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-      { id: 'id-5', name: 'Aaa', number: '327-91-26' },
     ],
     filter: '',
   };
@@ -48,9 +46,22 @@ export class ContactsBook extends Component {
   normalizeStr = string => string.trim().toLowerCase();
 
   findContact = value =>
-    this.state.contacts.some(
+    this.state.contacts.find(
       contact => this.normalizeStr(contact.name) === this.normalizeStr(value)
     );
+
+  removeContact = value =>
+    this.setState(prevState => {
+      const contacts = prevState.contacts.reduce((arr, contact) => {
+        if (contact.name !== value) {
+          arr.push(contact);
+        }
+
+        return arr;
+      }, []);
+
+      return { contacts: contacts };
+    });
 
   render() {
     const { filter, contacts } = this.state;
@@ -65,6 +76,7 @@ export class ContactsBook extends Component {
           <Contacts
             onFiltered={this.filteredContacts}
             onChange={this.handleChange}
+            onRemove={this.removeContact}
             filter={filter}
           />
         ) : (
