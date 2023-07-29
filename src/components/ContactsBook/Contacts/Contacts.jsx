@@ -1,15 +1,19 @@
-export const Contacts = ({ data }) => {
+import { ContactsList } from '../ContactsList/ContactsList';
+import { Filter } from '../Filter/Filter';
+import { Notification } from '../Notification/Notification';
+
+export const Contacts = ({ filter, onFiltered, onChange }) => {
+  const filteredContacts = onFiltered(filter);
+
   return (
-    <ul>
-      {data.map(contact => {
-        const { id, name, number } = contact;
-        return (
-          <li key={id}>
-            <span>{name}: </span>
-            <span>{number} </span>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <Filter onChange={onChange} filter={filter} />
+
+      {filter.length && !filteredContacts.length ? (
+        <Notification text="Contact with the entered name was not found" />
+      ) : (
+        <ContactsList contacts={filteredContacts} />
+      )}
+    </>
   );
 };
