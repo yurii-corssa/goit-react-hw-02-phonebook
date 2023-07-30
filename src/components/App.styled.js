@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
 body {
     font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
 }
 
 button {

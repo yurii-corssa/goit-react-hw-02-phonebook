@@ -9,3 +9,19 @@ export const Container = styled.div`
   color: #333;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 `;
+
+export const Title = styled.h2`
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 0 10px 0;
+`;
+
+export const TitleContacts = styled.h3`
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 0 10px 0;
+`;

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { Container } from './ContactsBook.styled';
+import { Container, Title, TitleContacts } from './ContactsBook.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Contacts } from './Contacts/Contacts';
 import { Notification } from './Notification/Notification';
@@ -16,7 +16,7 @@ export class ContactsBook extends Component {
     filter: '',
   };
 
-  handleSubmit = data => {
+  submitForm = data => {
     const id = nanoid();
 
     this.setState(prevState => {
@@ -26,7 +26,7 @@ export class ContactsBook extends Component {
       }
 
       return {
-        contacts: [...prevState.contacts, { ...data, id: id }],
+        contacts: [...prevState.contacts, { ...data, id }],
       };
     });
   };
@@ -68,10 +68,10 @@ export class ContactsBook extends Component {
 
     return (
       <Container>
-        <h2>Phonebook</h2>
-        <ContactForm onSubmit={this.handleSubmit} />
+        <Title>Phonebook</Title>
+        <ContactForm onSubmit={this.submitForm} />
 
-        <h2>Contacts</h2>
+        <TitleContacts>Contacts</TitleContacts>
         {contacts.length ? (
           <Contacts
             onFiltered={this.filteredContacts}

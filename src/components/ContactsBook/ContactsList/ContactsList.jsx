@@ -1,18 +1,25 @@
-export const ContactsList = ({ contacts, onRemove }) => {
-  return (
-    <ul>
-      {contacts.map(contact => {
-        const { id, name, number } = contact;
-        return (
-          <li key={id}>
-            <span>{name}: </span>
-            <span>{number} </span>
-            <button type="button" onClick={() => onRemove(name)}>
-              Delete
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  );
+import PropTypes from 'prop-types';
+import { ContactWrapper, ListItem } from './ContactsList.styled';
+import { Button } from 'components/Button/Button';
+
+export const ContactsList = ({ contacts, onRemove }) =>
+  contacts.map(contact => {
+    const { id, name, number } = contact;
+
+    return (
+      <ListItem key={id}>
+        <ContactWrapper>
+          <span>{name}:</span>
+          <span>{number} </span>
+        </ContactWrapper>
+        <Button type="button" onClick={() => onRemove(name)}>
+          Delete
+        </Button>
+      </ListItem>
+    );
+  });
+
+ContactsList.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  onRemove: PropTypes.func.isRequired,
 };
