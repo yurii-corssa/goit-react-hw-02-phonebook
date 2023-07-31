@@ -1,9 +1,15 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { Container, Title, TitleContacts } from './ContactsBook.styled';
+import {
+  ContactsWrapper,
+  Container,
+  Title,
+  TitleContacts,
+} from './ContactsBook.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Contacts } from './Contacts/Contacts';
 import { Notification } from './Notification/Notification';
+import { Filter } from './Filter/Filter';
 
 export class ContactsBook extends Component {
   state = {
@@ -17,18 +23,14 @@ export class ContactsBook extends Component {
   };
 
   submitForm = data => {
-    const id = nanoid();
+    if (this.findContact(data.name)) {
+      alert(`${data.name} is already to contacts`);
+      return;
+    }
 
-    this.setState(prevState => {
-      if (this.findContact(data.name)) {
-        alert(`${data.name} is already to contacts`);
-        return;
-      }
-
-      return {
-        contacts: [...prevState.contacts, { ...data, id }],
-      };
-    });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { ...data, id: nanoid() }],
+    }));
   };
 
   filteredContacts = value =>
@@ -52,19 +54,16 @@ export class ContactsBook extends Component {
 
   removeContact = value =>
     this.setState(prevState => {
-      const contacts = prevState.contacts.reduce((arr, contact) => {
-        if (contact.name !== value) {
-          arr.push(contact);
-        }
+      const filteredContacts = prevState.contacts.filter(
+        contact => contact.name !== value
+      );
 
-        return arr;
-      }, []);
-
-      return { contacts: contacts };
+      return { contacts: filteredContacts };
     });
 
   render() {
     const { filter, contacts } = this.state;
+    const filteredContacts = this.filteredContacts(filter);
 
     return (
       <Container>
@@ -72,16 +71,18 @@ export class ContactsBook extends Component {
         <ContactForm onSubmit={this.submitForm} />
 
         <TitleContacts>Contacts</TitleContacts>
-        {contacts.length ? (
+        <ContactsWrapper>
+          <Filter onChange={this.handleChange} filter={filter} />
           <Contacts
-            onFiltered={this.filteredContacts}
-            onChange={this.handleChange}
+            filteredContacts={filteredContacts}
             onRemove={this.removeContact}
-            filter={filter}
           />
-        ) : (
-          <Notification text="Contact book is empty" />
-        )}
+
+          {contacts.length !== 0 && !filteredContacts.length && (
+            <Notification text="Contact with the entered name was not found!" />
+          )}
+          {!contacts.length && <Notification text="Contact book is empty" />}
+        </ContactsWrapper>
       </Container>
     );
   }

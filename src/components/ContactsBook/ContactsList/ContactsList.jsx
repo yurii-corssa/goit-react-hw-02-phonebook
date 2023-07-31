@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { ContactWrapper, ListItem } from './ContactsList.styled';
 import { Button } from 'components/Button/Button';
 
-export const ContactsList = ({ contacts, onRemove }) =>
-  contacts.map(contact => {
+export const ContactsList = ({ contacts, onRemove }) => {
+  return contacts.map(contact => {
     const { id, name, number } = contact;
 
     return (
@@ -18,6 +18,7 @@ export const ContactsList = ({ contacts, onRemove }) =>
       </ListItem>
     );
   });
+};
 
 ContactsList.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),

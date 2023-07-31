@@ -25,3 +25,9 @@ export const TitleContacts = styled.h3`
   text-transform: uppercase;
   padding: 10px 0 10px 0;
 `;
+
+export const ContactsWrapper = styled.div`
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px 20px;
+`;
